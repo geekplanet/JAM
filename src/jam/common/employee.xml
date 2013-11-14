@@ -1,0 +1,17 @@
+<employee>
+    <tableSchema>
+        <name type="varchar" />
+    </tableSchema>
+
+    <entity>
+        <name type="varchar">
+            Элвис Пресли
+        </name>
+        <position type="varchar">
+            Менеджер
+        </position>
+        <salary type="int">
+            20000
+        </salary>
+    </entity>
+</employee>
