@@ -9,4 +9,5 @@ public interface DBDriver extends IFlowDriver {
 
     public boolean Connect();
     public boolean closeConnection();
+    public void executeQuery();
 }

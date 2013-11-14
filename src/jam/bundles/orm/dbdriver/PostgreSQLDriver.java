@@ -16,6 +16,11 @@ public class PostgreSQLDriver implements DBDriver {
     }
 
     @Override
+    public void executeQuery() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void insert() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
