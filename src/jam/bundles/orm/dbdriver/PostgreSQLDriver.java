@@ -99,9 +99,9 @@ public class PostgreSQLDriver implements IDBDriver {
             SqlData temp = (SqlData) m.getValue();
             String value = temp.value;
             query.append(key);
-            query.append("='");
-            query.append(value);
-            query.append("',");
+            query.append("=");
+            query.append('?');
+            query.append(",");
         }
         query.delete(query.length()-1,query.length());
         query.append(" WHERE ");
@@ -136,9 +136,8 @@ public class PostgreSQLDriver implements IDBDriver {
     {
         try {
             pst = con.prepareStatement(query);    // @TODO: Сделать подстановку плейсхолдеров
-            //pst.setString(1, getFirstName());
-            //pst.setString(2, getLastName());
-            //pst.setInt(3, getAge());
+            pst.setString(1, "Дядя");
+            pst.setString(2, "Федор");
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
