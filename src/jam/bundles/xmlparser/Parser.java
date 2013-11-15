@@ -22,7 +22,7 @@ public class Parser implements IFlowDriver {
     }
 
     @Override
-    public void update() {
+    public void update(String tableName, Map<Object,Object> mp, String where) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

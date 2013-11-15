@@ -12,6 +12,6 @@ public interface IFlowDriver {
      */
     public void insert(String tableName, Map<Object,Object> mp);
     public ResultSet get(String query);
-    public void update();
+    public void update(String tableName, Map<Object,Object> mp, String where);
     public void delete();
 }

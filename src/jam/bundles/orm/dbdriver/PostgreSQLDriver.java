@@ -86,6 +86,31 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
+    public void update(String tableName, Map<Object,Object> mp, String where)
+    {
+        StringBuffer query = new StringBuffer();
+        query.append("Update " + tableName + " SET ");
+        Set s=mp.entrySet();
+        Iterator it=s.iterator();
+        while(it.hasNext())    // @TODO: Переделать в foreach
+        {
+            Map.Entry m =(Map.Entry)it.next();
+            String key=(String)m.getKey();
+            String value=(String)m.getValue();
+            query.append(key);
+            query.append("='");
+            query.append(value);
+            query.append("',");
+        }
+        query.delete(query.length()-1,query.length());
+        query.append(" WHERE ");
+        query.append(where);
+        query.append(";");
+        query(query.toString());    // выполняем запрос без возвращения ResultSet
+        System.out.println(query.toString());
+    }
+
+    @Override
     public ResultSet get(String query) {
             try {
                 pst = con.prepareStatement(query);
@@ -96,7 +121,6 @@ public class PostgreSQLDriver implements IDBDriver {
                 lgr.log(Level.SEVERE, ex.getMessage(), ex);
             }
         return null;
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -112,11 +136,6 @@ public class PostgreSQLDriver implements IDBDriver {
             Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
-    }
-
-    @Override
-    public void update() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
