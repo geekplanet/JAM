@@ -5,6 +5,8 @@ package jam.bundles.xmlparser;
  */
 import jam.common.IFlowDriver;
 
+import java.sql.ResultSet;
+
 public class Parser implements IFlowDriver {
 
     @Override
@@ -13,8 +15,9 @@ public class Parser implements IFlowDriver {
     }
 
     @Override
-    public void get() {
+    public ResultSet get() {
         //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override

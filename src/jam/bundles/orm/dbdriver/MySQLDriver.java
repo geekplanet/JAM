@@ -1,5 +1,7 @@
 package jam.bundles.orm.dbdriver;
 
+import java.sql.ResultSet;
+
 /**
  * TODO: написать аннотацию к классу
  */
@@ -26,8 +28,9 @@ public class MySQLDriver implements DBDriver {
     }
 
     @Override
-    public void get() {
+    public ResultSet get() {
         //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
