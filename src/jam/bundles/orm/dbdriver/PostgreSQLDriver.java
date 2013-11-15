@@ -115,7 +115,7 @@ public class PostgreSQLDriver implements IDBDriver {
     public void delete(String tableName, String where)
     {
         String query = "DELETE FROM " + tableName + " WHERE " + where;
-        //query(query);
+        query(query);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
-    public void query(String query, Map<Object,SqlData> mp)
+    public void query(String query, Map<Object,SqlData> mp)    // с плейсхолдерами
     {
         try {
             pst = con.prepareStatement(query);    // @TODO: Сделать подстановку плейсхолдеров
@@ -150,10 +150,17 @@ public class PostgreSQLDriver implements IDBDriver {
                 if (temp.type == "String")    // @TODO: Здесь будет case со всеми типати
                     pst.setString(i, temp.value);
             }
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
 
-
-           //pst.setString(1, "Дядя");
-            //pst.setString(2, "Федор");
+    public void query(String query)    // без плейсхолдеров
+    {
+        try {
+            pst = con.prepareStatement(query);    // @TODO: Сделать подстановку плейсхолдеров
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
