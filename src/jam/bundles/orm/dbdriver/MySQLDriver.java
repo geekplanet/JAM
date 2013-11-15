@@ -1,6 +1,7 @@
 package jam.bundles.orm.dbdriver;
 
 import java.sql.ResultSet;
+import java.util.Map;
 
 /**
  * TODO: написать аннотацию к классу
@@ -23,7 +24,7 @@ public class MySQLDriver implements IDBDriver {
     //}
 
     @Override
-    public void insert() {
+    public void insert(String tableName, Map<Object,Object> mp) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

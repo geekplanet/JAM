@@ -6,11 +6,12 @@ package jam.bundles.xmlparser;
 import jam.common.IFlowDriver;
 
 import java.sql.ResultSet;
+import java.util.Map;
 
 public class Parser implements IFlowDriver {
 
     @Override
-    public void insert() {
+    public void insert(String tableName, Map<Object,Object> mp) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

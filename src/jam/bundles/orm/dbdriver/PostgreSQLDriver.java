@@ -59,25 +59,30 @@ public class PostgreSQLDriver implements IDBDriver {
    //     //To change body of implemented methods use File | Settings | File Templates.
    // }
 
-    public void linsert(String tableName, Map<Object,Object> mp)
+    @Override
+    public void insert(String tableName, Map<Object,Object> mp)
     {
-        String query = "INSERT INTO " + tableName;
+        StringBuffer query = new StringBuffer();
+        query.append("INSERT INTO " + tableName + "(");
+        StringBuffer keys = new StringBuffer();
+        StringBuffer values = new StringBuffer();
         Set s=mp.entrySet();
         Iterator it=s.iterator();
-
         while(it.hasNext())    // @TODO: Переделать в foreach
         {
             Map.Entry m =(Map.Entry)it.next();
-            int key=(Integer)m.getKey();
+            String key=(String)m.getKey();
             String value=(String)m.getValue();
-            System.out.println("Key :"+key+"  Value :"+value);
+            keys.append(key + ",");
+            values.append("'" + value + "',");
         }
-
-    }
-
-    @Override
-    public void insert() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // удаляем последние запятые
+        keys.delete(keys.length() - 1,keys.length());
+        values.delete(values.length() - 1,values.length());
+        query.append(keys + ") VALUES (");
+        query.append(values + ");");
+        System.out.println(query);
+        query(query.toString());    // выполняем запрос без возвращения ResultSet
     }
 
     @Override
