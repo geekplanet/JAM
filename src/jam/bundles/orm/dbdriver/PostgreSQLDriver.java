@@ -59,7 +59,11 @@ public class PostgreSQLDriver implements IDBDriver {
    //     //To change body of implemented methods use File | Settings | File Templates.
    // }
 
-    @Override
+    public void insert()
+    {
+
+    }
+
     public void insert(String tableName, Map<Object,SqlData> mp)
     {
         StringBuffer query = new StringBuffer();
@@ -72,7 +76,6 @@ public class PostgreSQLDriver implements IDBDriver {
         {
             Map.Entry m =(Map.Entry)it.next();
             String key=(String)m.getKey();
-            //String value=(String)m.getValue();
             keys.append(key + ",");
             values.append("?,");
         }
@@ -86,6 +89,12 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
+    public void update()
+    {
+
+    }
+
+    //@Override
     public void update(String tableName, Map<Object,SqlData> mp, String where)
     {
         StringBuffer query = new StringBuffer();
@@ -96,8 +105,6 @@ public class PostgreSQLDriver implements IDBDriver {
         {
             Map.Entry m =(Map.Entry)it.next();
             String key=(String)m.getKey();
-            SqlData temp = (SqlData) m.getValue();
-            String value = temp.value;
             query.append(key);
             query.append("=");
             query.append('?');
@@ -111,11 +118,17 @@ public class PostgreSQLDriver implements IDBDriver {
         System.out.println(query.toString());
     }
 
-    @Override
+    //@Override
     public void delete(String tableName, String where)
     {
         String query = "DELETE FROM " + tableName + " WHERE " + where;
         query(query);
+    }
+
+    @Override
+    public void delete()
+    {
+
     }
 
     @Override

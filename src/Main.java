@@ -35,7 +35,6 @@ public class Main {
 
             mp.put("firstname", new SqlData("String","Федор"));
             mp.put("lastname", new SqlData("String","Ониськин"));
-            //mp.put("age", new SqlData("Integer","Ониськин"));
             pg.insert("person",mp);
 
             Map<Object,SqlData> mp2=new HashMap<Object,SqlData>();
