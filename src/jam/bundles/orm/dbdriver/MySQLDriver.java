@@ -34,6 +34,12 @@ public class MySQLDriver implements IDBDriver {
     }
 
     @Override
+    public void query(String query)
+    {
+
+    }
+
+    @Override
     public void update() {
         //To change body of implemented methods use File | Settings | File Templates.
     }

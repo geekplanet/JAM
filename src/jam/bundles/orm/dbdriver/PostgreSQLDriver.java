@@ -1,8 +1,11 @@
 package jam.bundles.orm.dbdriver;
 
 import java.sql.*;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * TODO: написать аннотацию к классу
@@ -28,8 +31,6 @@ public class PostgreSQLDriver implements IDBDriver {
         catch (SQLException ex) {
 
         }
-
-
     return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -58,6 +59,22 @@ public class PostgreSQLDriver implements IDBDriver {
    //     //To change body of implemented methods use File | Settings | File Templates.
    // }
 
+    public void linsert(String tableName, Map<Object,Object> mp)
+    {
+        String query = "INSERT INTO " + tableName;
+        Set s=mp.entrySet();
+        Iterator it=s.iterator();
+
+        while(it.hasNext())    // @TODO: Переделать в foreach
+        {
+            Map.Entry m =(Map.Entry)it.next();
+            int key=(Integer)m.getKey();
+            String value=(String)m.getValue();
+            System.out.println("Key :"+key+"  Value :"+value);
+        }
+
+    }
+
     @Override
     public void insert() {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -78,7 +95,6 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
-
     public void query(String query)
     {
         try {
