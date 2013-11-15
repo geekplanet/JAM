@@ -7,7 +7,7 @@ import java.sql.ResultSet;
  */
 public interface IFlowDriver {
     public void insert();
-    public ResultSet get();
+    public ResultSet get(String query);
     public void update();
     public void delete();
 }

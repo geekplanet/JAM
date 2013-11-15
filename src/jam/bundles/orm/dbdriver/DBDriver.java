@@ -7,7 +7,7 @@ import jam.common.IFlowDriver;
 
 public interface DBDriver extends IFlowDriver {
 
-    public boolean Connect();
+    public boolean Connect(String url, String user, String password);
     public boolean closeConnection();
     public void executeQuery();
 }

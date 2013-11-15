@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public class MySQLDriver implements DBDriver {
 
     @Override
-    public boolean Connect() {
+    public boolean Connect(String url, String user, String password) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -28,7 +28,7 @@ public class MySQLDriver implements DBDriver {
     }
 
     @Override
-    public ResultSet get() {
+    public ResultSet get(String query) {
         //To change body of implemented methods use File | Settings | File Templates.
         return null;
     }

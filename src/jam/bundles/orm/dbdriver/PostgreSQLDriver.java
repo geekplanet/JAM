@@ -10,18 +10,19 @@ import java.util.logging.Logger;
 public class PostgreSQLDriver implements DBDriver {
 
     private Connection con;
+    private ResultSet rs;
+    private PreparedStatement pst;
+    private String user;
+    private String url;
+    private String password;
+
 
     @Override
-    public boolean Connect() {
-
-        String url;
-        String user;
-        String password;
-
+    public boolean Connect(String url, String user, String password) {
         try{
-            url = "jdbc:postgresql://192.168.1.5/db_builder";
-            user = "defender";
-            password = "1234";
+            this.url = url;
+            this.user = user;
+            this.password = password;
             con = DriverManager.getConnection(url, user, password);
         }
         catch (SQLException ex) {
@@ -34,6 +35,21 @@ public class PostgreSQLDriver implements DBDriver {
 
     @Override
     public boolean closeConnection() {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pst != null) {
+                pst.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
+            lgr.log(Level.WARNING, ex.getMessage(), ex);
+        }
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -48,37 +64,16 @@ public class PostgreSQLDriver implements DBDriver {
     }
 
     @Override
-    public ResultSet get()
-    {
-        return null;
-    }
-
-    public void lget() {
-            PreparedStatement pst = null;
-            ResultSet rs = null;
+    public ResultSet get(String query) {
             try {
-                String url = "jdbc:postgresql://192.168.1.5/db_builder";
-                String user = "defender";
-                String password = "1234";
-                con = DriverManager.getConnection(url, user, password);
-                pst = con.prepareStatement("SELECT * FROM person");
+                pst = con.prepareStatement(query);
                 rs = pst.executeQuery();
-                while (rs.next())
-                {
-                    System.out.print(rs.getInt(1));    // @TODO: для теста, убрать
-                    System.out.print(" ");
-                    System.out.print(rs.getString(2));
-                    System.out.print(" ");
-                    System.out.print(rs.getString(3));
-                    System.out.print(" ");
-                    System.out.println(rs.getInt(4));
-                }
-                //return rs;
+                return rs;
             } catch (SQLException ex) {
                 Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
                 lgr.log(Level.SEVERE, ex.getMessage(), ex);
             }
-        //return null;
+        return null;
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
