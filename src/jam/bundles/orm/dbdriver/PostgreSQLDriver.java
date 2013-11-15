@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 /**
  * TODO: написать аннотацию к классу
  */
-public class PostgreSQLDriver extends DbDriver {
+public class PostgreSQLDriver implements IDBDriver {
 
     private Connection con;
     private ResultSet rs;

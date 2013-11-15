@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 /**
  * TODO: написать аннотацию к классу
  */
-public class MySQLDriver extends DbDriver {
+public class MySQLDriver implements IDBDriver {
 
     @Override
     public boolean Connect(String url, String user, String password) {
