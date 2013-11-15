@@ -3,6 +3,7 @@ package jam.bundles.xmlparser;
 /**
  * TODO: написать аннотацию к классу
  */
+import jam.bundles.orm.dbdriver.SqlData;
 import jam.common.IFlowDriver;
 
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ public class Parser implements IFlowDriver {
     }
 
     @Override
-    public void update(String tableName, Map<Object,Object> mp, String where) {
+    public void update(String tableName, Map<Object,SqlData> mp, String where) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -86,7 +86,7 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
-    public void update(String tableName, Map<Object,Object> mp, String where)
+    public void update(String tableName, Map<Object,SqlData> mp, String where)
     {
         StringBuffer query = new StringBuffer();
         query.append("Update " + tableName + " SET ");
@@ -96,7 +96,8 @@ public class PostgreSQLDriver implements IDBDriver {
         {
             Map.Entry m =(Map.Entry)it.next();
             String key=(String)m.getKey();
-            String value=(String)m.getValue();
+            SqlData temp = (SqlData) m.getValue();
+            String value = temp.value;
             query.append(key);
             query.append("='");
             query.append(value);

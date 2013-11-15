@@ -1,5 +1,7 @@
 package jam.common;
 
+import jam.bundles.orm.dbdriver.SqlData;
+
 import java.sql.ResultSet;
 import java.util.Map;
 
@@ -12,6 +14,6 @@ public interface IFlowDriver {
      */
     public void insert(String tableName, Map<Object,Object> mp);
     public ResultSet get(String query);
-    public void update(String tableName, Map<Object,Object> mp, String where);
+    public void update(String tableName, Map<Object,SqlData> mp, String where);
     public void delete(String tableName, String where);
 }

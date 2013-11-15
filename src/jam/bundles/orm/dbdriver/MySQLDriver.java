@@ -41,7 +41,7 @@ public class MySQLDriver implements IDBDriver {
     }
 
     @Override
-    public void update(String tableName, Map<Object,Object> mp, String where) {
+    public void update(String tableName, Map<Object,SqlData> mp, String where) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
