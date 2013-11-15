@@ -82,7 +82,7 @@ public class PostgreSQLDriver implements IDBDriver {
         query.append(keys + ") VALUES (");
         query.append(values + ");");
         System.out.println(query);
-        query(query.toString());    // выполняем запрос без возвращения ResultSet
+        //query(query.toString());    // выполняем запрос без возвращения ResultSet
     }
 
     @Override
@@ -107,7 +107,7 @@ public class PostgreSQLDriver implements IDBDriver {
         query.append(" WHERE ");
         query.append(where);
         query.append(";");
-        query(query.toString());    // выполняем запрос без возвращения ResultSet
+        query(query.toString(),mp);    // выполняем запрос без возвращения ResultSet
         System.out.println(query.toString());
     }
 
@@ -115,7 +115,7 @@ public class PostgreSQLDriver implements IDBDriver {
     public void delete(String tableName, String where)
     {
         String query = "DELETE FROM " + tableName + " WHERE " + where;
-        query(query);
+        //query(query);
     }
 
     @Override
@@ -132,12 +132,28 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
-    public void query(String query)
+    public void query(String query, Map<Object,SqlData> mp)
     {
         try {
             pst = con.prepareStatement(query);    // @TODO: Сделать подстановку плейсхолдеров
-            pst.setString(1, "Дядя");
-            pst.setString(2, "Федор");
+
+
+            Set s=mp.entrySet();
+            Iterator it=s.iterator();
+            int i = 0;
+            while(it.hasNext())    // @TODO: Переделать в foreach
+            {
+                i++;
+                Map.Entry m =(Map.Entry)it.next();
+                String key=(String)m.getKey();
+                SqlData temp = (SqlData) m.getValue();
+                if (temp.type == "String")    // @TODO: Здесь будет case со всеми типати
+                    pst.setString(i, temp.value);
+            }
+
+
+           //pst.setString(1, "Дядя");
+            //pst.setString(2, "Федор");
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());

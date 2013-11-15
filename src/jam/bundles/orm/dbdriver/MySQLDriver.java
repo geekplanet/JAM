@@ -35,7 +35,7 @@ public class MySQLDriver implements IDBDriver {
     }
 
     @Override
-    public void query(String query)
+    public void query(String query, Map<Object,SqlData> mp)
     {
 
     }
