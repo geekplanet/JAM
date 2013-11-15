@@ -24,7 +24,7 @@ public class MySQLDriver implements IDBDriver {
     //}
 
     @Override
-    public void insert(String tableName, Map<Object,Object> mp) {
+    public void insert(String tableName, Map<Object,SqlData> mp) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -60,7 +60,7 @@ public class PostgreSQLDriver implements IDBDriver {
    // }
 
     @Override
-    public void insert(String tableName, Map<Object,Object> mp)
+    public void insert(String tableName, Map<Object,SqlData> mp)
     {
         StringBuffer query = new StringBuffer();
         query.append("INSERT INTO " + tableName + "(");
@@ -72,9 +72,9 @@ public class PostgreSQLDriver implements IDBDriver {
         {
             Map.Entry m =(Map.Entry)it.next();
             String key=(String)m.getKey();
-            String value=(String)m.getValue();
+            //String value=(String)m.getValue();
             keys.append(key + ",");
-            values.append("'" + value + "',");
+            values.append("?,");
         }
         // удаляем последние запятые
         keys.delete(keys.length() - 1,keys.length());
@@ -82,7 +82,7 @@ public class PostgreSQLDriver implements IDBDriver {
         query.append(keys + ") VALUES (");
         query.append(values + ");");
         System.out.println(query);
-        //query(query.toString());    // выполняем запрос без возвращения ResultSet
+        query(query.toString(),mp);    // выполняем запрос без возвращения ResultSet
     }
 
     @Override
@@ -135,7 +135,7 @@ public class PostgreSQLDriver implements IDBDriver {
     public void query(String query, Map<Object,SqlData> mp)    // с плейсхолдерами
     {
         try {
-            pst = con.prepareStatement(query);    // @TODO: Сделать подстановку плейсхолдеров
+            pst = con.prepareStatement(query);
 
 
             Set s=mp.entrySet();
@@ -160,7 +160,7 @@ public class PostgreSQLDriver implements IDBDriver {
     public void query(String query)    // без плейсхолдеров
     {
         try {
-            pst = con.prepareStatement(query);    // @TODO: Сделать подстановку плейсхолдеров
+            pst = con.prepareStatement(query);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());

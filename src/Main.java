@@ -31,12 +31,12 @@ public class Main {
                 System.out.println(rs.getInt(4));
             }
 
-            /*Map<Object,Object> mp=new HashMap<Object, Object>();
+            Map<Object,SqlData> mp=new HashMap<Object, SqlData>();
 
-            mp.put("firstname", "Петр");
-            mp.put("lastname", "Петров");
-            mp.put("age", "1");
-            pg.insert("person",mp);*/
+            mp.put("firstname", new SqlData("String","Федор"));
+            mp.put("lastname", new SqlData("String","Ониськин"));
+            //mp.put("age", new SqlData("Integer","Ониськин"));
+            pg.insert("person",mp);
 
             Map<Object,SqlData> mp2=new HashMap<Object,SqlData>();
             mp2.put("firstname", new SqlData("String","Иван"));
