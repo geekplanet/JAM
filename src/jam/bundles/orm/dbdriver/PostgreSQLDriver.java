@@ -111,6 +111,13 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
+    public void delete(String tableName, String where)
+    {
+        String query = "DELETE FROM " + tableName + " WHERE " + where;
+        query(query);
+    }
+
+    @Override
     public ResultSet get(String query) {
             try {
                 pst = con.prepareStatement(query);
@@ -136,10 +143,5 @@ public class PostgreSQLDriver implements IDBDriver {
             Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
-    }
-
-    @Override
-    public void delete() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

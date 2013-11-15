@@ -46,7 +46,7 @@ public class MySQLDriver implements IDBDriver {
     }
 
     @Override
-    public void delete() {
+    public void delete(String tableName, String where) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 }
