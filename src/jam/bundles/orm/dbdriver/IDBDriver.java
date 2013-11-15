@@ -9,5 +9,6 @@ public interface IDBDriver extends IFlowDriver {
 
     public boolean Connect(String url, String user, String password);
     public boolean closeConnection();
+    public void query(String query);
     //public void executeQuery();
 }

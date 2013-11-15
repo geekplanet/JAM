@@ -78,6 +78,22 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
+
+    public void query(String query)
+    {
+        try {
+            pst = con.prepareStatement(query);    // @TODO: Сделать подстановку плейсхолдеров
+            //pst.setString(1, getFirstName());
+            //pst.setString(2, getLastName());
+            //pst.setInt(3, getAge());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    @Override
     public void update() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
