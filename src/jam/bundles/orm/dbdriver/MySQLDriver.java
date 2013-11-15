@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 /**
  * TODO: написать аннотацию к классу
  */
-public class MySQLDriver implements DBDriver {
+public class MySQLDriver extends DbDriver {
 
     @Override
     public boolean Connect(String url, String user, String password) {
@@ -17,10 +17,10 @@ public class MySQLDriver implements DBDriver {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public void executeQuery() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+   // @Override
+  //  public void executeQuery() {
+   //     //To change body of implemented methods use File | Settings | File Templates.
+    //}
 
     @Override
     public void insert() {

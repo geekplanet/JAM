@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 /**
  * TODO: написать аннотацию к классу
  */
-public class PostgreSQLDriver implements DBDriver {
+public class PostgreSQLDriver extends DbDriver {
 
     private Connection con;
     private ResultSet rs;
@@ -53,10 +53,10 @@ public class PostgreSQLDriver implements DBDriver {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public void executeQuery() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+   // @Override
+   // public void executeQuery() {
+   //     //To change body of implemented methods use File | Settings | File Templates.
+   // }
 
     @Override
     public void insert() {

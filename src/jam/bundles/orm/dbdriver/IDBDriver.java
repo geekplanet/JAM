@@ -5,9 +5,9 @@ package jam.bundles.orm.dbdriver;
  */
 import jam.common.IFlowDriver;
 
-public interface DBDriver extends IFlowDriver {
+public interface IDBDriver extends IFlowDriver {
 
     public boolean Connect(String url, String user, String password);
     public boolean closeConnection();
-    public void executeQuery();
+    //public void executeQuery();
 }
