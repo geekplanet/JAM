@@ -1,10 +1,15 @@
 package jam.bundles.orm;
 import jam.bundles.orm.dbdriver.IDBDriver;
+import jam.bundles.orm.dbdriver.SqlData;
+
 import java.lang.reflect.Field;
 import java.lang.Class;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +20,7 @@ import java.util.logging.Logger;
 public class Entity {
     protected boolean inDb;   // true - объект в БД, false - только в предметной облости
     protected IDBDriver driver;
+    protected Map<String,String> meta;    // мета данные в виде пар: имя_столбца -> тип_стоблца
 
     public Entity(IDBDriver driver)
     {
@@ -54,19 +60,38 @@ public class Entity {
                 // @TODO: сделать заполнение методов Entity
                 Person en = new Person(this.driver);
 
-                en.id = rs.getInt(1);
+                /*en.id = rs.getInt(1);
                 en.firstname = rs.getString(2);
                 en.lastname = rs.getString(3);
                 en.age = rs.getInt(4);
-                ar.add(en);
+                ar.add(en);*/
 
                 Person objectInstance = new Person(this.driver);
+
+
+
                 int i = 1;
+                Set s=meta.entrySet();
+                Iterator it=s.iterator();
+                /*while(it.hasNext())    // @TODO: Переделать в foreach
+                {
+                    Map.Entry m =(Map.Entry)it.next();
+                    String key=(String)m.getKey();
+                    keys.append(key + ",");
+                    values.append("?,");
+                }*/
+
+
+
                 for (Field field : publicFields) {
                     try{
                         Object value = field.get(objectInstance);
+                        String fieldName = field.getName();
+                        String fieldType = findValueOfKey(meta,fieldName);
+                        System.out.println("FieldName: " + fieldName + " ; FieldType: " + fieldType);
                         field.set(objectInstance, value);
                         System.out.println("Значение: " + value);
+                        ar.add(objectInstance);
                     }
                     catch (IllegalAccessException e) {
                         System.out.println("Ошибка IllegalAccessException");
@@ -78,6 +103,25 @@ public class Entity {
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
         return ar;
+    }
+
+    private String findValueOfKey(Map<String,String> meta, String key2)
+    {
+        Set s=meta.entrySet();
+        Iterator it=s.iterator();
+        boolean t = true;
+        String value = null;
+        while(it.hasNext() && t)
+        {
+            Map.Entry m =(Map.Entry)it.next();
+            String key=(String)m.getKey();
+            if (key.equals(key2))
+            {
+                t = false;
+                value=(String)m.getValue();
+            }
+        }
+        return value;
     }
 
     public void save()    // @TODO: реализовать метод сохранения в БД
