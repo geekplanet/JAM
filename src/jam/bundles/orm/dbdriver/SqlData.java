@@ -1,5 +1,8 @@
 package jam.bundles.orm.dbdriver;
 
+/**
+ * Класс SqlData - тип данных для хранения типа и значения поля таблицы БД
+ */
 public class SqlData<V> {
 
     public SqlData(String type, V value)

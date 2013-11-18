@@ -8,20 +8,22 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * TODO: написать аннотацию к классу
+ * Класс PostgreSQLDriver выполняет запросы к БД PgSQL
  */
 public class PostgreSQLDriver implements IDBDriver {
 
     private Connection con;
-    private ResultSet rs;
-    private PreparedStatement pst;
+
+    private ResultSet rs;    // ResultSet - БД возвращает response в виде объекта этого типа
+    private PreparedStatement pst;    // Нужно для запроса с плейсхолдерами (защита от SQL инъекций)
+
     private String user;
     private String url;
     private String password;
 
 
     @Override
-    public boolean Connect(String url, String user, String password) {
+    public boolean Connect(String url, String user, String password) {    // Подключаемся к БД
         try{
             this.url = url;
             this.user = user;
@@ -29,9 +31,10 @@ public class PostgreSQLDriver implements IDBDriver {
             con = DriverManager.getConnection(url, user, password);
         }
         catch (SQLException ex) {
-
+            Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
+            lgr.log(Level.WARNING, ex.getMessage(), ex);
         }
-    return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
     @Override
@@ -46,20 +49,15 @@ public class PostgreSQLDriver implements IDBDriver {
             if (con != null) {
                 con.close();
             }
-
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(PostgreSQLDriver.class.getName());
             lgr.log(Level.WARNING, ex.getMessage(), ex);
         }
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
-   // @Override
-   // public void executeQuery() {
-   //     //To change body of implemented methods use File | Settings | File Templates.
-   // }
-
-    public void insert()
+    @Override
+    public void insert()    // @TODO: Метод заглушка для реализации интерфейса IFlowDriver. Подумать, что с этим делать
     {
 
     }
@@ -94,7 +92,6 @@ public class PostgreSQLDriver implements IDBDriver {
 
     }
 
-    //@Override
     public void update(String tableName, Map<Object,SqlData> mp, String where)
     {
         StringBuffer query = new StringBuffer();
@@ -118,7 +115,6 @@ public class PostgreSQLDriver implements IDBDriver {
         System.out.println(query.toString());
     }
 
-    //@Override
     public void delete(String tableName, String where)
     {
         String query = "DELETE FROM " + tableName + " WHERE " + where;
@@ -150,7 +146,7 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
-    public void query(String query, Map<Object,SqlData> mp)    // с плейсхолдерами
+    public void query(String query, Map<Object,SqlData> mp)    // с плейсхолдерами (SELECT, UPDATE, CREATE ...)
     {
         try {
             pst = con.prepareStatement(query);
@@ -175,7 +171,7 @@ public class PostgreSQLDriver implements IDBDriver {
         }
     }
 
-    public void query(String query)    // без плейсхолдеров
+    public void query(String query)    // без плейсхолдеров (DELETE ...)
     {
         try {
             pst = con.prepareStatement(query);

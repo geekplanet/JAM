@@ -8,9 +8,14 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Класс Entity - абстрактный класс сущности, один объект которой есть строчка в таблице БД (Паттерн ActiveRecord - одна
+ * из реализаций паттерна ORM)
+ */
 public class Entity {
     protected boolean inDb;   // true - объект в БД, false - только в предметной облости
     protected IDBDriver driver;
+
     public Entity(IDBDriver driver)
     {
         this.driver = driver;
@@ -48,14 +53,19 @@ public class Entity {
             while (rs.next()) {
                 // @TODO: сделать заполнение методов Entity
                 Person en = new Person(this.driver);
+
                 en.id = rs.getInt(1);
                 en.firstname = rs.getString(2);
                 en.lastname = rs.getString(3);
                 en.age = rs.getInt(4);
                 ar.add(en);
+
+                Person objectInstance = new Person(this.driver);
+                int i = 1;
                 for (Field field : publicFields) {
                     try{
-                        Object value = field.get(this);
+                        Object value = field.get(objectInstance);
+                        field.set(objectInstance, value);
                         System.out.println("Значение: " + value);
                     }
                     catch (IllegalAccessException e) {
@@ -70,7 +80,12 @@ public class Entity {
         return ar;
     }
 
-    public static void save()
+    public void save()    // @TODO: реализовать метод сохранения в БД
+    {
+
+    }
+
+    public void delete()    // @TODO: реализовать метод удаления из БД
     {
 
     }

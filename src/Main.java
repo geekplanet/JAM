@@ -17,11 +17,11 @@ public class Main {
             String url = "jdbc:postgresql://192.168.1.5/db_builder";
             String user = "defender";
             String password = "1234";
-            pg.Connect(url,user,password);
+            pg.Connect(url,user,password);    // коннектимся к БД
 
             Map<Object,SqlData> mp=new HashMap<Object, SqlData>();
 
-            mp.put("firstname", new SqlData("String","Федор"));    // вставка данных через драйвер
+            /*mp.put("firstname", new SqlData("String","Федор"));    // вставка данных через драйвер
             mp.put("lastname", new SqlData("String","Ониськин"));
             mp.put("age", new SqlData("int","1"));
             pg.insert("person",mp);
@@ -29,9 +29,9 @@ public class Main {
             Map<Object,SqlData> mp2=new HashMap<Object,SqlData>();    // обновление данных через драйвер
             mp2.put("firstname", new SqlData("String","Иван"));
             mp2.put("lastname", new SqlData("String","Петров"));
-            pg.update("person",mp2,"id=1");
+            pg.update("person",mp2,"id=1");*/
 
-            Person en = new Person(pg);
+            Person en = new Person(pg);    // параметром передаём объект конкретного DbDrive - ра
             ArrayList<Entity> ar;
             ar = en.select();
             Person p = (Person) ar.get(0);
