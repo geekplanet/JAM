@@ -2,8 +2,11 @@ import jam.bundles.orm.dbdriver.PostgreSQLDriver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import jam.bundles.orm.Entity;
+import jam.bundles.orm.Person;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
+
 import jam.bundles.orm.dbdriver.SqlData;
 
 public class Main {
@@ -39,8 +42,12 @@ public class Main {
             mp2.put("lastname", new SqlData("String","Петров"));
             pg.update("person",mp2,"id=112");
 
-            Entity en = new Entity(null);
+
+            //Entity en = new Entity(pg);
+            Person en = new Person(pg);
             en.getField();
+            ArrayList<Entity> ar = new ArrayList<Entity>();
+            ar = en.select();
 
             pg.closeConnection();
         } catch (SQLException ex) {
