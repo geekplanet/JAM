@@ -59,16 +59,21 @@ public class Entity {
         String className = this.getClass().getName();
         className = className.substring(className.lastIndexOf(".")+1);
         ResultSet rs = driver.get("SELECT * FROM " + className);
-
+        ArrayList ar = new ArrayList();
         try {
             Class c = this.getClass();
             Field[] publicFields = c.getFields();
             while (rs.next()) {
+
+                //Entity en = new Entity(this.driver);    // @TODO: сделать заполнение методов Entity
+                Person en = new Person(this.driver);
+                en.id = rs.getInt(1);
+                en.firstname = rs.getString(2);
+                en.lastname = rs.getString(3);
+                en.age = rs.getInt(4);
+                ar.add(en);
                 for (Field field : publicFields) {
-                    Class fieldType = field.getType();
-                    System.out.println("Имя: " + field.getName());
-                    System.out.println("Тип: " + fieldType.getName());
-                    field.setAccessible(true);
+
                     try{
                         Object value = field.get(this);
                         System.out.println("Значение: " + value);
@@ -76,7 +81,6 @@ public class Entity {
                     catch (IllegalAccessException e) {
                         System.out.println("Ошибка IllegalAccessException");
                     }
-
                 }
             }
 
@@ -89,7 +93,7 @@ public class Entity {
         //Class c = this.getClass();
         //Field[] publicFields = c.getFields();    // получаем поля класса
         //Map<Object,SqlData> mp;
-        return null;
+        return ar;
     }
 
     public static void save()

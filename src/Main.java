@@ -54,6 +54,8 @@ public class Main {
             //en.getField();
             ArrayList<Entity> ar = new ArrayList<Entity>();
             ar = en.select();
+            Person p = (Person) ar.get(0);
+            System.out.println(p.age + " " + p.lastname);
 
             pg.closeConnection();
        // } catch (SQLException ex) {
