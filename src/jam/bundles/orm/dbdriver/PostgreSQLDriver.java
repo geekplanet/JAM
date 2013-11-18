@@ -62,7 +62,7 @@ public class PostgreSQLDriver implements IDBDriver {
 
     }
 
-    public void insert(String tableName, Map<Object,SqlData> mp)
+    public void insert(String tableName, Map<Object,SqlData> mp)    // Map: имя_поля => (значение,тип)
     {
         StringBuffer query = new StringBuffer();
         query.append("INSERT INTO " + tableName + "(");
@@ -74,8 +74,13 @@ public class PostgreSQLDriver implements IDBDriver {
         {
             Map.Entry m =(Map.Entry)it.next();
             String key=(String)m.getKey();
-            keys.append(key + ",");
-            values.append("?,");
+           // if (key != "id")    // @TODO: Автоинкрементное поле может называться и по другому
+            //{
+                keys.append(key + ",");
+                values.append("?,");
+          //  }
+           // else
+            //    it.remove();
         }
         // удаляем последние запятые
         keys.delete(keys.length() - 1,keys.length());
@@ -83,6 +88,7 @@ public class PostgreSQLDriver implements IDBDriver {
         query.append(keys + ") VALUES (");
         query.append(values + ");");
         System.out.println(query);
+        //mp.remove("id");
         query(query.toString(),mp);    // выполняем запрос без возвращения ResultSet
     }
 
@@ -163,6 +169,7 @@ public class PostgreSQLDriver implements IDBDriver {
                     pst.setString(i,(String) temp.value);
                 else if (temp.type == "int")
                     pst.setInt(i, Integer.parseInt ((String) temp.value));
+
             }
             pst.executeUpdate();
         } catch (SQLException ex) {

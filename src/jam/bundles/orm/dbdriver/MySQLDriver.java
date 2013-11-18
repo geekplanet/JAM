@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * TODO: написать аннотацию к классу
  */
-public class MySQLDriver implements IDBDriver {
+public abstract class MySQLDriver implements IDBDriver {
 
     @Override
     public boolean Connect(String url, String user, String password) {

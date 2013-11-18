@@ -24,8 +24,8 @@ public class Main {
             /*mp.put("firstname", new SqlData("String","Федор"));    // вставка данных через драйвер
             mp.put("lastname", new SqlData("String","Ониськин"));
             mp.put("age", new SqlData("int","1"));
-            pg.insert("person",mp);
-
+            pg.insert("person",mp);               */
+            /*
             Map<Object,SqlData> mp2=new HashMap<Object,SqlData>();    // обновление данных через драйвер
             mp2.put("firstname", new SqlData("String","Иван"));
             mp2.put("lastname", new SqlData("String","Петров"));
@@ -36,12 +36,15 @@ public class Main {
             ar = en.select();
             Person p = (Person) ar.get(0);
             System.out.println(p.age + " " + p.lastname);
+
             Person p1 = (Person) ar.get(1);
+            p1.lastname = "Свиридов";
+            p1.save();
             System.out.println(p1.age + " " + p1.lastname);    // получение данных чарез ОРМ
             Person p3 = (Person) ar.get(2);
             System.out.println(p3.age + " " + p3.lastname);
             Person p4 = (Person) ar.get(3);
-            System.out.println(p4.age + " " + p4.lastname + " " + p4.firstname);    // получение данных чарез ОРМ
+            System.out.println(p4.age + " " + p4.lastname + " " + p4.firstname);    // получение данных чарез ОРМ*/
 
             pg.closeConnection();
     }
