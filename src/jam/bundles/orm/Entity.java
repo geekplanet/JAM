@@ -1,40 +1,22 @@
 package jam.bundles.orm;
 import jam.bundles.orm.dbdriver.IDBDriver;
-import jam.bundles.orm.dbdriver.SqlData;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.Member;
 import java.lang.Class;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Entity {
-
-    //public int id;
     protected boolean inDb;   // true - объект в БД, false - только в предметной облости
     protected IDBDriver driver;
-
-    //public String name;
-    //private String name1;
-    //public int age;
-    //public boolean flag;
-
-
     public Entity(IDBDriver driver)
     {
         this.driver = driver;
     }
 
-
-    public void getField()
+    /*public void getField()    // Было нужно для теста
     {
         Class c = this.getClass();
         Field[] publicFields = c.getFields();
@@ -52,9 +34,9 @@ public class Entity {
             }
 
         }
-    }
+    }*/
 
-    public ArrayList select()
+    public ArrayList select()    // Извлекаем все данные из таблицы
     {
         String className = this.getClass().getName();
         className = className.substring(className.lastIndexOf(".")+1);
@@ -64,8 +46,7 @@ public class Entity {
             Class c = this.getClass();
             Field[] publicFields = c.getFields();
             while (rs.next()) {
-
-                //Entity en = new Entity(this.driver);    // @TODO: сделать заполнение методов Entity
+                // @TODO: сделать заполнение методов Entity
                 Person en = new Person(this.driver);
                 en.id = rs.getInt(1);
                 en.firstname = rs.getString(2);
@@ -73,7 +54,6 @@ public class Entity {
                 en.age = rs.getInt(4);
                 ar.add(en);
                 for (Field field : publicFields) {
-
                     try{
                         Object value = field.get(this);
                         System.out.println("Значение: " + value);
@@ -83,16 +63,10 @@ public class Entity {
                     }
                 }
             }
-
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Person.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
-
         }
-
-        //Class c = this.getClass();
-        //Field[] publicFields = c.getFields();    // получаем поля класса
-        //Map<Object,SqlData> mp;
         return ar;
     }
 

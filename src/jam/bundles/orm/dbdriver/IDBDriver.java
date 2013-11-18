@@ -14,5 +14,4 @@ public interface IDBDriver extends IFlowDriver {
     public boolean closeConnection();
     public void query(String query,Map<Object,SqlData> mp);
     public ResultSet get(String query);
-    //public void executeQuery();
 }

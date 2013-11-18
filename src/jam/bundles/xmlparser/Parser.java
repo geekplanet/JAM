@@ -3,11 +3,9 @@ package jam.bundles.xmlparser;
 /**
  * TODO: написать аннотацию к классу
  */
-import jam.bundles.orm.dbdriver.SqlData;
+
 import jam.common.IFlowDriver;
 
-import java.sql.ResultSet;
-import java.util.Map;
 
 public class Parser implements IFlowDriver {
 
