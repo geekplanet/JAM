@@ -29,6 +29,11 @@ public class MySQLDriver implements IDBDriver {
     }
 
     @Override
+    public void get() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public ResultSet get(String query) {
         //To change body of implemented methods use File | Settings | File Templates.
         return null;

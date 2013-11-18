@@ -17,9 +17,8 @@ public class Parser implements IFlowDriver {
     }
 
     @Override
-    public ResultSet get(String query) {
+    public void get() {
         //To change body of implemented methods use File | Settings | File Templates.
-        return null;
     }
 
     @Override

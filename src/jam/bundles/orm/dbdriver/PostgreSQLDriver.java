@@ -132,6 +132,11 @@ public class PostgreSQLDriver implements IDBDriver {
     }
 
     @Override
+    public void get()
+    {
+
+    }
+
     public ResultSet get(String query) {
             try {
                 pst = con.prepareStatement(query);
@@ -149,8 +154,6 @@ public class PostgreSQLDriver implements IDBDriver {
     {
         try {
             pst = con.prepareStatement(query);
-
-
             Set s=mp.entrySet();
             Iterator it=s.iterator();
             int i = 0;
@@ -158,7 +161,7 @@ public class PostgreSQLDriver implements IDBDriver {
             {
                 i++;
                 Map.Entry m =(Map.Entry)it.next();
-                String key=(String)m.getKey();
+                //String key=(String)m.getKey();
                 SqlData temp = (SqlData) m.getValue();
                 if (temp.type == "String")    // @TODO: Здесь будет case со всеми типати
                     pst.setString(i, temp.value);
