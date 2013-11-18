@@ -53,6 +53,7 @@ public class Main {
             p3.firstname = "Лёха";
             p3.lastname = "Абрамов";
             p3.save();
+            p3.delete();
             System.out.println(p3.age + " " + p3.lastname);
 
             Person p4 = (Person) ar.get(3);

@@ -109,78 +109,66 @@ public class Entity {
     {
         String tableName = this.getClass().getName();
         tableName = tableName.substring(tableName.lastIndexOf(".")+1);    // получаем имя класса без пакета
+        Map<Object,SqlData> map = new HashMap<Object, SqlData>();
+        Class c = this.getClass();
+        Field[] publicFields = c.getFields();
+        for (Field field : publicFields) {
+            try{
+                Object value = field.get(this);
+                String fieldName = field.getName();
+                String fieldType = findValueOfKey(meta,fieldName);
+                if (fieldName != "id")
+                {
+                    if (fieldType == "varchar")
+                    {
+                        fieldType = "String";
+                        map.put(fieldName,new SqlData(fieldType,value));
+                    }
+                    if (fieldType == "integer")
+                    {
+                        fieldType = "int";
+                        map.put(fieldName,new SqlData(fieldType,value.toString()));
+                    }
+                    //System.out.println(fieldName + "  " + fieldType + "  " + value);
+                }
+            }
+            catch (IllegalAccessException e) {
+                System.out.println("Ошибка IllegalAccessException");
+            }
+        }
         if(!inDb)
         {
-            Map<Object,SqlData> map = new HashMap<Object, SqlData>();
-            Class c = this.getClass();
-            Field[] publicFields = c.getFields();
-            for (Field field : publicFields) {
-                    try{
-                        Object value = field.get(this);
-                        String fieldName = field.getName();
-                        String fieldType = findValueOfKey(meta,fieldName);
-                        if (fieldName != "id")
-                        {
-                            if (fieldType == "varchar")
-                            {
-                                fieldType = "String";
-                                map.put(fieldName,new SqlData(fieldType,value));
-                            }
-                            if (fieldType == "integer")
-                            {
-                                fieldType = "int";
-                                map.put(fieldName,new SqlData(fieldType,value.toString()));
-                            }
-                            //System.out.println(fieldName + "  " + fieldType + "  " + value);
-                        }
-                    }
-                    catch (IllegalAccessException e) {
-                        System.out.println("Ошибка IllegalAccessException");
-                    }
-                }
             driver.insert(tableName,map);
             inDb = true;    // сущность (строчка таблицы) сохранена в БД
         }
         else
         {
-            Map<Object,SqlData> map = new HashMap<Object, SqlData>();
-            Class c = this.getClass();
-            Field[] publicFields = c.getFields();
-            for (Field field : publicFields) {
-                try{
-                    Object value = field.get(this);
-                    String fieldName = field.getName();
-                    String fieldType = findValueOfKey(meta,fieldName);
-                    if (fieldName != "id")
-                    {
-                        if (fieldType == "varchar")
-                        {
-                            fieldType = "String";
-                            map.put(fieldName,new SqlData(fieldType,value));
-                        }
-                        if (fieldType == "integer")
-                        {
-                            fieldType = "int";
-                            map.put(fieldName,new SqlData(fieldType,value.toString()));
-                        }
-                        System.out.println(fieldName + "  " + fieldType + "  " + value);
-                    }
-                }
-                catch (IllegalAccessException e) {
-                    System.out.println("Ошибка IllegalAccessException");
-                }
-            }
             driver.update(tableName,map,"id=" + getId());
         }
     }
 
+    /*
+     * Удаляет объект из БД (потом можно вызвать метод save() и восстановить)
+     */
     public void delete()    // @TODO: реализовать метод удаления из БД
     {
-
+        if (getInDb())
+        {
+            setInDb(false);
+            String tableName = this.getClass().getName();
+            tableName = tableName.substring(tableName.lastIndexOf(".")+1);    // получаем имя класса без пакета
+            String where = "id=" + getId();
+            driver.delete(tableName,where);
+        }
     }
 
     public int getId()    // переопределяется
     {
         return -1;
+    }
+
+    public boolean getInDb()    // переопределяется
+    {
+        return false;
     }
 }

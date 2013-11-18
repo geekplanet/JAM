@@ -16,4 +16,5 @@ public interface IDBDriver extends IFlowDriver {
     public ResultSet get(String query);
     public void insert(String tableName, Map<Object,SqlData> mp);
     public void update(String tableName, Map<Object,SqlData> mp, String where);
+    public void delete(String tableName, String where);
 }

@@ -1,6 +1,5 @@
 package jam.bundles.orm;
 import jam.bundles.orm.dbdriver.IDBDriver;
-import jam.bundles.orm.dbdriver.SqlData;
 
 import java.util.HashMap;
 
@@ -22,6 +21,11 @@ public class Person extends Entity {
     public int getId()
     {
         return id;
+    }
+
+    public boolean getInDb()
+    {
+        return inDb;
     }
 
 }
