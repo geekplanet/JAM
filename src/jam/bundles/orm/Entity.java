@@ -65,15 +65,10 @@ public class Entity {
         String className = this.getClass().getName();
         className = className.substring(className.lastIndexOf(".")+1);
         ResultSet rs = driver.get("SELECT * FROM " + className);
-        //String s = this.getClass().getName();
-        //s= s.substring(s.lastIndexOf(".")+1);
-        //System.out.println(s);
+
         Class c = this.getClass();
-
         Field[] publicFields = c.getFields();    // получаем поля класса
-
         Map<Object,SqlData> mp;
-
         return null;
     }
 

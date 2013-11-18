@@ -161,10 +161,12 @@ public class PostgreSQLDriver implements IDBDriver {
             {
                 i++;
                 Map.Entry m =(Map.Entry)it.next();
-                //String key=(String)m.getKey();
                 SqlData temp = (SqlData) m.getValue();
+
                 if (temp.type == "String")    // @TODO: Здесь будет case со всеми типати
-                    pst.setString(i, temp.value);
+                    pst.setString(i,(String) temp.value);
+                else if (temp.type == "int")
+                    pst.setInt(i, Integer.parseInt ((String) temp.value));
             }
             pst.executeUpdate();
         } catch (SQLException ex) {

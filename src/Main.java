@@ -35,19 +35,21 @@ public class Main {
 
             mp.put("firstname", new SqlData("String","Федор"));
             mp.put("lastname", new SqlData("String","Ониськин"));
+            mp.put("age", new SqlData("int","1"));
             pg.insert("person",mp);
 
-            Map<Object,SqlData> mp2=new HashMap<Object,SqlData>();
+            /*Map<Object,SqlData> mp2=new HashMap<Object,SqlData>();
             mp2.put("firstname", new SqlData("String","Иван"));
             mp2.put("lastname", new SqlData("String","Петров"));
-            pg.update("person",mp2,"id=112");
+            pg.update("person",mp2,"id=112");*/
 
 
-            //Entity en = new Entity(pg);
-            Person en = new Person(pg);
+            Entity en = new Entity(pg);
+            //en.getField();
+            /*Person en = new Person(pg);
             en.getField();
-            ArrayList<Entity> ar = new ArrayList<Entity>();
-            ar = en.select();
+            ArrayList<Entity> ar = new ArrayList<Entity>();*/
+            //ar = en.select();
 
             pg.closeConnection();
         } catch (SQLException ex) {
