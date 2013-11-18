@@ -25,27 +25,15 @@ public class Entity {
         this.driver = driver;
     }
 
-    /*public void getField()    // Было нужно для теста
+    public void setInDb(boolean inDb)
     {
-        Class c = this.getClass();
-        Field[] publicFields = c.getFields();
-        for (Field field : publicFields) {
-            Class fieldType = field.getType();
-            System.out.println("Имя: " + field.getName());
-            System.out.println("Тип: " + fieldType.getName());
-            field.setAccessible(true);
-            try{
-                Object value = field.get(this);
-                System.out.println("Значение: " + value);
-            }
-             catch (IllegalAccessException e) {
-                System.out.println("Ошибка IllegalAccessException");
-            }
+        this.inDb = inDb;
+    }
 
-        }
-    }*/
-
-    public ArrayList select()    // Извлекаем все данные из таблицы
+    /*
+     * Извлекает все данные из таблицы и возвращает объекты (ORM)
+     */
+    public ArrayList select()    // Извлекаем все данные из таблицы    // @TODO: Сделать полиморфные функции для более точных выборок (например по id)
     {
         String tableName = this.getClass().getName();
         tableName = tableName.substring(tableName.lastIndexOf(".")+1);    // получаем имя класса без пакета
@@ -57,6 +45,7 @@ public class Entity {
             while (rs.next()) {
                 Person objectInstance = new Person(this.driver);
                 Person en = new Person(this.driver);    // @TODO: Найти способ инстанциировать любой класс
+                en.setInDb(true);    // показываем, что сущности уже содержаться в БД
                 Class enCl = en.getClass();
                 int i = 1;
                 for (Field field : publicFields) {
@@ -64,15 +53,13 @@ public class Entity {
                         try{
                             Object value = field.get(objectInstance);
                             String fieldName = field.getName();
-                            String fieldType = findValueOfKey(meta,fieldName);
-                            //System.out.println("FieldName: " + fieldName + " ; FieldType: " + fieldType);
+                            String fieldType = findValueOfKey(meta,fieldName);    // находим в мета данных тип значения по имени столбца
                             Field f1 = enCl.getField(fieldName);
                             if (fieldType == "varchar")
-                                f1.set(en,rs.getString(i));
+                                f1.set(en,rs.getString(i));    // заполняем значениями очередную сущность выборки
                             else
                                 f1.set(en,rs.getInt(i));
                             field.set(objectInstance, value);
-                            //System.out.println("Значение: " + value);
                         }
                     catch (IllegalAccessException e) {
                         System.out.println("Ошибка IllegalAccessException");
@@ -93,6 +80,9 @@ public class Entity {
         return ar;
     }
 
+    /*
+     * Находит в мета данных тип столбца по названию
+     */
     private String findValueOfKey(Map<String,String> meta, String key2)
     {
         Set s=meta.entrySet();
@@ -112,6 +102,9 @@ public class Entity {
         return value;
     }
 
+    /*
+     * Добавляет/обновляет строчку в БД, соответствующую этой таблице
+     */
     public void save()
     {
         String tableName = this.getClass().getName();
@@ -138,7 +131,7 @@ public class Entity {
                                 fieldType = "int";
                                 map.put(fieldName,new SqlData(fieldType,value.toString()));
                             }
-                            System.out.println(fieldName + "  " + fieldType + "  " + value);
+                            //System.out.println(fieldName + "  " + fieldType + "  " + value);
                         }
                     }
                     catch (IllegalAccessException e) {
@@ -151,19 +144,33 @@ public class Entity {
         else
         {
             Map<Object,SqlData> map = new HashMap<Object, SqlData>();
-
-            Set s=meta.entrySet();
-            Iterator it=s.iterator();
-            while(it.hasNext())
-            {
-                Map.Entry m =(Map.Entry)it.next();
-                String key = (String)m.getKey();
-                String value = (String)m.getValue();
-                String value2 = findValueOfKey(meta,key);
-                map.put(key,new SqlData(value,value2));
+            Class c = this.getClass();
+            Field[] publicFields = c.getFields();
+            for (Field field : publicFields) {
+                try{
+                    Object value = field.get(this);
+                    String fieldName = field.getName();
+                    String fieldType = findValueOfKey(meta,fieldName);
+                    if (fieldName != "id")
+                    {
+                        if (fieldType == "varchar")
+                        {
+                            fieldType = "String";
+                            map.put(fieldName,new SqlData(fieldType,value));
+                        }
+                        if (fieldType == "integer")
+                        {
+                            fieldType = "int";
+                            map.put(fieldName,new SqlData(fieldType,value.toString()));
+                        }
+                        System.out.println(fieldName + "  " + fieldType + "  " + value);
+                    }
+                }
+                catch (IllegalAccessException e) {
+                    System.out.println("Ошибка IllegalAccessException");
+                }
             }
             driver.update(tableName,map,"id=" + getId());
-            //inDb = true;    // сущность (строчка таблицы) сохранена в БД
         }
     }
 
