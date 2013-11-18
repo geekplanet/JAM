@@ -38,6 +38,10 @@ public class Main {
             System.out.println(p.age + " " + p.lastname);
             Person p1 = (Person) ar.get(1);
             System.out.println(p1.age + " " + p1.lastname);    // получение данных чарез ОРМ
+            Person p3 = (Person) ar.get(2);
+            System.out.println(p3.age + " " + p3.lastname);
+            Person p4 = (Person) ar.get(3);
+            System.out.println(p4.age + " " + p4.lastname + " " + p4.firstname);    // получение данных чарез ОРМ
 
             pg.closeConnection();
     }

@@ -50,53 +50,43 @@ public class Entity {
     public ArrayList select()    // Извлекаем все данные из таблицы
     {
         String className = this.getClass().getName();
-        className = className.substring(className.lastIndexOf(".")+1);
-        ResultSet rs = driver.get("SELECT * FROM " + className);
+        className = className.substring(className.lastIndexOf(".")+1);    // получаем имя класса без пакета
+        ResultSet rs = driver.get("SELECT * FROM " + className);    // из объекта ResultSet будем считывать данные
         ArrayList ar = new ArrayList();
         try {
             Class c = this.getClass();
             Field[] publicFields = c.getFields();
             while (rs.next()) {
-                // @TODO: сделать заполнение методов Entity
-                Person en = new Person(this.driver);
-
-                /*en.id = rs.getInt(1);
-                en.firstname = rs.getString(2);
-                en.lastname = rs.getString(3);
-                en.age = rs.getInt(4);
-                ar.add(en);*/
-
                 Person objectInstance = new Person(this.driver);
-
-
-
+                Person en = new Person(this.driver);    // @TODO: Найти способ инстанциировать любой класс
+                Class enCl = en.getClass();
                 int i = 1;
-                Set s=meta.entrySet();
-                Iterator it=s.iterator();
-                /*while(it.hasNext())    // @TODO: Переделать в foreach
-                {
-                    Map.Entry m =(Map.Entry)it.next();
-                    String key=(String)m.getKey();
-                    keys.append(key + ",");
-                    values.append("?,");
-                }*/
-
-
-
                 for (Field field : publicFields) {
                     try{
-                        Object value = field.get(objectInstance);
-                        String fieldName = field.getName();
-                        String fieldType = findValueOfKey(meta,fieldName);
-                        System.out.println("FieldName: " + fieldName + " ; FieldType: " + fieldType);
-                        field.set(objectInstance, value);
-                        System.out.println("Значение: " + value);
-                        ar.add(objectInstance);
-                    }
+                        try{
+                            Object value = field.get(objectInstance);
+                            String fieldName = field.getName();
+                            String fieldType = findValueOfKey(meta,fieldName);
+                            //System.out.println("FieldName: " + fieldName + " ; FieldType: " + fieldType);
+                            Field f1 = enCl.getField(fieldName);
+                            if (fieldType == "varchar")
+                                f1.set(en,rs.getString(i));
+                            else
+                                f1.set(en,rs.getInt(i));
+                            field.set(objectInstance, value);
+                            //System.out.println("Значение: " + value);
+                        }
                     catch (IllegalAccessException e) {
                         System.out.println("Ошибка IllegalAccessException");
                     }
+                    }
+                    catch (NoSuchFieldException e)
+                    {
+                        System.out.println("NoSuchFieldException");
+                    }
+                    i++;
                 }
+                ar.add(en);
             }
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Person.class.getName());
