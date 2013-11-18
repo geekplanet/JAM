@@ -119,31 +119,11 @@ public class Entity {
         if(!inDb)
         {
             Map<Object,SqlData> map = new HashMap<Object, SqlData>();
-            System.out.println("меотд save");
-
-
-
-
-            /*Set s=meta.entrySet();
-            Iterator it=s.iterator();
-            while(it.hasNext())
-            {
-                Map.Entry m =(Map.Entry)it.next();
-                String key = (String)m.getKey();
-                String value = (String)m.getValue();
-                String value2 = findValueOfKey(meta,key);
-                String value3 =
-                map.put(key,new SqlData(value,value2));
-                System.out.println(key + "  " + value + "  " + value2);
-
-            }*/
-
-            Person objectInstance = new Person(this.driver);
             Class c = this.getClass();
             Field[] publicFields = c.getFields();
             for (Field field : publicFields) {
                     try{
-                        Object value = field.get(objectInstance);
+                        Object value = field.get(this);
                         String fieldName = field.getName();
                         String fieldType = findValueOfKey(meta,fieldName);
                         if (fieldName != "id")
@@ -165,22 +145,7 @@ public class Entity {
                         System.out.println("Ошибка IllegalAccessException");
                     }
                 }
-
-            //Map<Object,SqlData> mp2 = new HashMap<Object, SqlData>();
-            //map2.put("lastname",new SqlData("varchar","Иванов"));
-           // map2.put("age",new SqlData("integer","2"));
-            //map2.put("firstname",new SqlData("varchar","Иван"));
-            //map2.put("lastname",new SqlData("varchar","Иванов"));
-            //map2.put("age",new SqlData("integer","2"));
-
-            /*mp2.put("firstname", new SqlData("String","Федор"));    // вставка данных через драйвер
-            mp2.put("lastname", new SqlData("String","Ониськин"));
-            mp2.put("age", new SqlData("int","1"));
-            pg.insert("person",mp);*/
-
-
             driver.insert(tableName,map);
-            //driver.insert(tableName,mp2);
             inDb = true;    // сущность (строчка таблицы) сохранена в БД
         }
         else
