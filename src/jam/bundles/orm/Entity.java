@@ -43,8 +43,10 @@ public class Entity {
             Class c = this.getClass();
             Field[] publicFields = c.getFields();
             while (rs.next()) {
+
                 Person objectInstance = new Person(this.driver);
                 Person en = new Person(this.driver);    // @TODO: Найти способ инстанциировать любой класс
+
                 en.setInDb(true);    // показываем, что сущности уже содержаться в БД
                 Class enCl = en.getClass();
                 int i = 1;
@@ -61,10 +63,10 @@ public class Entity {
                                 f1.set(en,rs.getInt(i));
                             field.set(objectInstance, value);
                         }
-                    catch (IllegalAccessException e) {
-                        System.out.println("Ошибка IllegalAccessException");
-                    }
-                    }
+                        catch (IllegalAccessException e) {
+                            System.out.println("Ошибка IllegalAccessException");
+                        }
+                        }
                     catch (NoSuchFieldException e)
                     {
                         System.out.println("NoSuchFieldException");

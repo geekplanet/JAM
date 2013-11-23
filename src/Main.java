@@ -34,14 +34,21 @@ public class Main {
 
             /* Далее работа с ORM */
 
+            /*Person en0 = new Person(pg);    // вставка данных через ORM
+            en0.lastname = "Пупкин";
+            en0.firstname = "Егор";
+            en0.age = 12;
+            en0.save();*/
+
             Person en = new Person(pg);    // параметром передаём объект конкретного DbDrive - рq
             ArrayList<Entity> ar;
             ar = en.select();    // получение всех сущностей таблицы
 
             Person p1 = (Person) ar.get(0);
-            System.out.println(p1.age + " " + p1.lastname);
+            System.out.println(p1.firstname + " " + p1.lastname + " " + p1.age);  //*/
+            p1.exampleMetaData();
 
-            Person p2 = (Person) ar.get(1);
+            /*Person p2 = (Person) ar.get(1);
             p2.lastname = "Свиридов";    // изменяем
             p2.save();    // сохраняем
             p2.firstname = "Женёк";
@@ -53,7 +60,7 @@ public class Main {
             p3.firstname = "Лёха";
             p3.lastname = "Абрамов";
             p3.save();
-            p3.delete();
+            p3.delete();    // удаляем
             System.out.println(p3.age + " " + p3.lastname);
 
             Person p4 = (Person) ar.get(3);
