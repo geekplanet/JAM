@@ -46,7 +46,8 @@ public class Main {
 
             Person p1 = (Person) ar.get(0);
             System.out.println(p1.firstname + " " + p1.lastname + " " + p1.age);  //*/
-            p1.exampleMetaData();
+
+            //p1.exampleMetaData();
 
             /*Person p2 = (Person) ar.get(1);
             p2.lastname = "Свиридов";    // изменяем
@@ -62,6 +63,7 @@ public class Main {
             p3.save();
             p3.delete();    // удаляем
             System.out.println(p3.age + " " + p3.lastname);
+
 
             Person p4 = (Person) ar.get(3);
             System.out.println(p4.age + " " + p4.lastname + " " + p4.firstname);    // получение данных чарез ОРМ*/

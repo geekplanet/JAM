@@ -7,9 +7,14 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 
+
 public class OrmFirstTest extends TestCase {
 
     private PostgreSQLDriver pg;
+
+    public OrmFirstTest(String testName) {    // имя текущего теста
+        super(testName);
+    }
 
     protected void setUp() throws Exception
     {
