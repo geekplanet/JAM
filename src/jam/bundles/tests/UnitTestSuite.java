@@ -1,10 +1,14 @@
 package jam.bundles.tests;
 
-import junit.framework.TestSuite;
+//import org.junit.runner.RunWith;
+//import org.junit.runners.JUnit4;
+//import org.junit.runners.Suite.SuiteClasses;
 
-public class UnitTestSuite extends TestSuite {
-    public UnitTestSuite() {
-        addTestSuite(OrmFirstTest.class);
-        //addTestSuite(OrmSecondTest.class);
+//@RunWith(Suite.class)
+//@RunWith(JUnit4.class)
+//@SuiteClasses({OrmSecondTest.class})
+
+public class UnitTestSuite {
+    public static void main(String[] args) {
     }
 }

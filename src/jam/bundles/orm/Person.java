@@ -33,20 +33,40 @@ public class Person extends Entity {
 /*
  * Пример получения мета данных
  */
-    public void exampleMetaData()
-    {
+    public void exampleMetaData() throws SQLException {
         String url = "jdbc:postgresql://192.168.1.5/db_builder";
         String user = "defender";
         String password = "1234";
+
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM person;");
-        ResultSet rs = null;
-            rs = statement.executeQuery();
-        PrintStream out = System.out;
 
-        if (rs != null) {
+        ResultSet rs = null;
+            DatabaseMetaData meta = connection.getMetaData();
+            rs = meta.getColumns(null, "%", "person", "%");
+            while (rs.next()) {
+
+                String columnType = rs.getString("TYPE_NAME");
+                String columnName = rs.getString("COLUMN_NAME");
+                int size = rs.getInt("COLUMN_SIZE");
+                int nullable = rs.getInt("NULLABLE");
+                int position = rs.getInt("ORDINAL_POSITION");
+                System.out.println("column name=" + columnName);
+                System.out.println("type=" + columnType);
+                System.out.println("size=" + size);
+
+                if (nullable == DatabaseMetaData.columnNullable) {
+                    System.out.println("nullable is true");
+                } else {
+                    System.out.println("nullable is false");
+                }
+                System.out.println("position" + position);
+            }
+            connection.close();
+
+
+        /*if (rs != null) {
             while (rs.next()) {
                 ResultSetMetaData rsmd = rs.getMetaData();
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
@@ -56,16 +76,19 @@ public class Person extends Entity {
 
                     int type = rsmd.getColumnType(i);
                     boolean autoIncr = rsmd.isAutoIncrement(i);
+                    int cc = rsmd.getColumnCount();    // количество колонок
+                    int pr = rsmd.getPrecision(1);
                     if (type == Types.VARCHAR || type == Types.CHAR) {
-                        out.print(rs.getString(i) + " тип " + type + " инкр " + autoIncr);
+                        out.print(rs.getString(i) + " тип " + type + " инкр " + autoIncr + " columnPrecision " + pr);
                     } else {
-                        out.print(rs.getLong(i) + " тип " + type + " инкр " + autoIncr);
+                        out.print(rs.getLong(i) + " тип " + type + " инкр " + autoIncr + " columnPrecision " + pr);
                     }
                 }
 
                 out.println();
             }
-        }
+        }*/
+
         } catch (SQLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

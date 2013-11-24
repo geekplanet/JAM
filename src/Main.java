@@ -1,6 +1,8 @@
 import jam.bundles.orm.dbdriver.PostgreSQLDriver;
 import jam.bundles.orm.Entity;
 import jam.bundles.orm.Person;
+
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -47,7 +49,11 @@ public class Main {
             Person p1 = (Person) ar.get(0);
             System.out.println(p1.firstname + " " + p1.lastname + " " + p1.age);  //*/
 
-            //p1.exampleMetaData();
+        try {
+            p1.exampleMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
             /*Person p2 = (Person) ar.get(1);
             p2.lastname = "Свиридов";    // изменяем

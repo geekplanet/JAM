@@ -2,13 +2,12 @@ package jam.bundles.tests;
 
 import jam.bundles.orm.dbdriver.PostgreSQLDriver;
 import jam.bundles.orm.dbdriver.SqlData;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.runner.Runner;
+import org.junit.runners.JUnit4;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class OrmSecondTest {
         pg.Connect(url,user,password);    // коннектимся к БД //*/
     }
 
-    @Test(expected = Exception.class)
+    @Test//(expected = Throwable.class)
     public void update() throws Exception
     {
         Map<Object,SqlData> mp2=new HashMap<Object,SqlData>();    // обновление данных через драйвер
